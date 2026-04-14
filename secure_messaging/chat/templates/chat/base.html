@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CipherChat | Secure Messaging</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans antialiased text-gray-800 bg-gray-50 flex flex-col min-h-screen">
+
+    <nav class="bg-gray-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="{% url 'index' %}" class="text-2xl font-extrabold tracking-wider flex items-center gap-2 hover:opacity-80 transition">
+                    <svg class="w-8 h-8 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    <span><span class="text-indigo-500">CIPHER</span>CHAT</span>
+                </a>
+                
+                <div class="flex space-x-4 items-center font-medium">
+                    {% if user.is_authenticated %}
+                        <span class="text-gray-400 text-sm hidden md:inline mr-2">Hello, <strong class="text-white">@{{ user.username }}</strong></span>
+                        <a href="{% url 'inbox' %}" class="text-gray-300 hover:text-white transition px-3 py-2 rounded-md hover:bg-gray-800">Inbox</a>
+                        <a href="{% url 'send_message' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition shadow-md">New Message</a>
+                        
+                        <form method="post" action="{% url 'logout' %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="text-gray-400 hover:text-red-400 transition ml-2 text-sm px-3 py-2">Logout</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg transition shadow-md">Log In</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-gray-900 text-gray-500 text-center py-6 mt-12 text-sm">
+        <p>&copy; 2026 CipherChat Secured Messaging System. HMAC-SHA256 Encrypted.</p>
+    </footer>
+
+</body>
+</html>
